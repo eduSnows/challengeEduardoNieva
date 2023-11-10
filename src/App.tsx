@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import DashboardContainer from "./pages/DashboardContainer";
+import styled, {ThemeProvider} from "styled-components";
+import {theme} from "./theme/theme";
+import {GlobalStyles} from "./styles/Global";
+import {BaseModalBackground, ModalProvider} from "styled-react-modal";
+import {useTheme} from "./context/ThemeContext";
+
+
+const FadingBackground = styled(BaseModalBackground)`
+  opacity: ${(props) => props.opacity};
+  transition: all 3s ease-in-out;
+`;
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const {theme:selectedTheme} = useTheme()
+
+    return (
+        <>
+            <ThemeProvider theme={theme[selectedTheme]}>
+                <ModalProvider backgroundComponent={FadingBackground}>
+                    <GlobalStyles/>
+                    <DashboardContainer/>
+                </ModalProvider>
+            </ThemeProvider>
+        </>
+    );
 }
 
 export default App;
